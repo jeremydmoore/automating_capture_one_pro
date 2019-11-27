@@ -5,7 +5,7 @@ from pathlib import Path
 # ============ variables ============ #
 tell_co12 = 'Tell application "Capture One 12"'
 command_stub = ['use AppleScript version "2.4"', 'use scripting additions']
-scripts_dir_path = Path('/Users/dlisla/Library/Scripts/')
+scripts_dir_path = Path('/Users/dlisla/Library/Scripts/')  # CHANGE USER PATH!!
 python_scripts_dir_path = scripts_dir_path.joinpath('Python Scripts')
 applescript_scripts_dir_path = scripts_dir_path.joinpath('AppleScript Scripts')
 
@@ -143,6 +143,17 @@ def set_crop_box(document, collection_id, variant_id, crop_box):
 
     return crop_box
 
+# can be used for all non-adjustment values
+# TODO: could do an if/then to identify where a value might be so the user doesn't have to specify
+def get_value(document, collection_id, variant_id, value):
+    command = command_stub + [f'{tell_co12} to tell its document "{document}" to tell its collection id "{collection_id}" to set current_value to {value} of variant id "{variant_id}"', 'return current_value']
+    current_value = applescript.command_to_python_list(command)
+
+    if isinstance(current_value, list) and len(current_value) == 1:
+        current_value = current_value[0]  # just return the first and only item in the list
+
+    return current_value
+
 
 # primary variant functions
 def get_primary_variant_id():
@@ -202,7 +213,6 @@ class Variant():
         # reset_variant_list in form of [Boolean, old_primary_variant_document, old_primary_variant_id]
         # self.reset_variant_list = do_i_have_to_reset_the_primary_variant(self.document, self.collection_id, self.id)
 
-
     def display_info(self):
         applescript.display_dialog(self.info)
         applescript.display_dialog(f'self.variant_id: {self.id}\nself.collection_id: {self.collection_id}\nself.document: {self.document}')
@@ -231,11 +241,38 @@ class Variant():
         crop_box = set_crop_box(self.document, self.collection_id, self.id, crop_box)
         return crop_box
 
-
     def reset_primary_variant(self):
         # reset_variant_list in form of [Boolean, old_primary_variant_collection_id, old_primary_variant_document, old_primary_variant_id]
         if self.reset_variant_list is True:
             set_variant_as_primary(self.reset_variant_list[1], self.reset_variant_list[2], self.reset_variant_list[3])
+
+    def set_star_rating(self, rating):
+        """
+        Set star rating of image to value {rating}
+
+        {rating} can be an int with a value of 0 - 5 (inclusive)
+        """
+        # verify rating is a valid number, current number scale is 0 up through 5 stars
+        valid_ratings = [0, 1, 2, 3, 4, 5]
+        if rating not in valid_ratings:
+            applescript.display_dialog(f'Rating of {rating} is not valid. Rating must be an integer from 0 - 5')
+            raise ValueError
+
+        # set AppleScript command & run it
+        command = command_stub + [f'{tell_co12} to tell its document "{self.document}" to tell its collection id "{self.collection_id}" to set rating of variant id "{self.id}" to "{rating}"']
+        applescript.process(command)
+
+        # get rating value -- grab 1st item in returned list and get
+        current_rating = get_value(self.document, self.collection_id, self.id, value='rating')
+        self.rating = int(current_rating)
+
+        if self.rating != rating:  # then the value wasn't updated correctly
+            applescript.display_dialog(f'ERROR! self.rating "{self.rating}" is NOT equal to rating requested "{rating}"')
+            raise ValueError
+
+        return self.rating
+
+
 
 
     def output_with_recipe(self, process_recipe):

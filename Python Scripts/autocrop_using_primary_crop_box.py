@@ -157,11 +157,20 @@ if __name__ == '__main__':
                 autocrop_box = co.set_crop_box(variant.document, variant.collection_id, variant.id, autocrop_box)
                 rotation_value = co.set_adjustment_value(variant.document, variant.collection_id, variant.id, 'rotation', autocrop_rotation_angle)[0]  # get first item in list
 
+                # if width and height of new crop box are correct then set star rating to 3 as assumed successful
+                width_after_cropping, height_after_cropping = autocrop_box[2:4]
+                # applescript.display_dialog(f'width type: {type(width)}\nwidth after cropping: {type(width_after_cropping)}')
+                # applescript.display_dialog(f'width: {width}\nwidth after cropping: {width_after_cropping}')
+                # applescript.display_dialog(f'height: {height}\nheight after cropping: {height_after_cropping}')
+                if float(width_after_cropping) == width and float(height_after_cropping) == height:
+                    # set image rating to 3 in Capture One
+                    variant.set_star_rating(3)
+
             elif capture_one_crop_data is None:
                 autocrop_rotation_angle = capture_one_crop_data
                 autocrop_box = capture_one_crop_data
 
-            # reset orientation to orignal value
+            # reset orientation to original value
             if pre_crop_orientation_value != orientation_value:
                 post_crop_orientation_value = co.set_adjustment_value(variant.document, variant.collection_id, variant.id, 'orientation', pre_crop_orientation_value)[0]  # get first item in list
 
