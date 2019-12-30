@@ -39,6 +39,19 @@ def get_user_input_int(value_name, default_value, attempts_left=5):
     return user_input
 
 
+def get_user_input(value_name, default_value, attempts_left=5):
+    user_input = None
+
+    command = [f'set value_name to text returned of (display dialog "Enter {value_name}" default answer "{default_value}")', 'return value_name']
+    user_input = command_to_python_list(command)
+
+    if user_input:
+        # returned value should be a single string in a list
+        user_input = user_input[0]
+
+    return user_input
+
+
 def command_to_python_list(command):
     applescript_output = process(command)
     python_list = convert_applescript_output_to_python_list(applescript_output)
