@@ -154,7 +154,22 @@ def get_value(document, collection_id, variant_id, value):
 
     return current_value
 
+# document functions
+def get_session_directory_path(document, posix=True):
+    if posix:
+        path_format = 'POSIX path of (get folder)'
+    else:
+        path_format = '(get folder)'
+    command = command_stub + [f'{tell_co12} to tell its document "{document}" to set document_path to {path_format}', 'return document_path']
+    session_directory_path = applescript.command_to_python_list(command)[0]
+    return session_directory_path
 
+# primary variant functions
+def get_primary_variant():
+    command = command_stub + [f'{tell_co12} to set primary_variant to (get primary variant)', 'return primary_variant']
+    primary_variant = applescript.command_to_python_list(command)[0]
+    return primary_variant
+    
 # primary variant functions
 def get_primary_variant_id():
     command = command_stub + [f'{tell_co12} to set primary_variant_id to id of primary variant', 'return primary_variant_id']
