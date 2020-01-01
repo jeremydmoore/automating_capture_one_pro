@@ -23,6 +23,26 @@ def disable_all_recipes():
     all_recipes_list = applescript.script_to_python_list(script_path)
     return all_recipes_list
 
+# def disable_all_recipes_no_script(document, collection_id):
+#     # set adjustment to new value
+#     command = command_stub + ['on run',
+#                               f'display dialog ("BEGIN - disable recipes in document " & {document} as text)',
+#                               'set output_list to {}',
+#                               f'{tell_co12}',
+#                               f'tell its document "{document}" to tell its collection id "{collection_id}"',
+#                               'repeat with counter from 1 to count of recipes',
+#                               'set the_recipe to item counter of recipes',
+#                               'set enabled to the_recipe to false',
+#                               'set end of disabled_recipes_list to quoted form of (get name of the_recipe) & space',
+#                               'end repeat',
+#                               'end tell',
+#                               'display dialog "END - disbale recipes"',
+#                               'return disabled_recipes_list',
+#                               'end run'
+#                              ]
+#     output_info_list = applescript.command_to_python_list(command)
+#     return output_info_list
+
 
 def enable_recipe(recipe_name):
     """
@@ -32,51 +52,64 @@ def enable_recipe(recipe_name):
         [recipe_name, output_folder_path, output_extension]
     """
     script_name = 'enable_recipe.scpt'
+    # if isinstance(recipe_names, list):  # there are multiple recipes to enable
+        # for recipe_name in recipe_names:
     script_path = applescript_scripts_dir_path.joinpath(script_name)
-    output_info_list = applescript.script_to_python_list(
-        script_path, args=recipe_name)
+    output_info_list = applescript.script_to_python_list(script_path, args=recipe_name)
     return output_info_list
 
 
+# def enable_recipe_no_script(document, collection_id, recipe_name):
+#     tell_co12_doc_and_collection = f'{tell_co12} to tell its document "{document}" to tell its collection id "{collection_id}"'
+#     # set adjustment to new value
+#     command = command_stub + [f'display dialog ("BEGIN - enable_recipe: " & {recipe_name} as text)',
+#                               'set output_list to {}',
+#                               f'{tell_co12}',
+#                               f'tell its document "{document}" to tell its collection id "{collection_id}"',
+#                               'set current recipe to recipe {recipe_name}',
+#                               'set enabled of current recipe to true',
+#                               'set recipe_output_folder to ((root folder location of current recipe as text) & (output sub folder of current recipe))',
+#                               'set output_folder_posix to (the quoted form of the POSIX path of recipe_output_folder)',
+#                               'set end of output_list to quoted form of output_folder_posix & space',
+#                               'set output_format to output format of current recipe',
+#                               'if output_format is JPEG then',
+#                               'set output_extension to ".jpg"',
+#                               'end if',
+#                               'set end of output_list to quoted form of output_extension & space',
+#                               'display dialog output_list',
+#                               f'display dialog ("END - enable_recipe: " & {recipe_name} as text)',
+#                               'return output_list'
+#                              ]
+#     output_info_list = applescript.command_to_python_list(command)
+#     return output_info_list
+
+
 def get_selected_variants():
-    cmd = f'{tell_co12} to set selected_variants to (get selected variants)'
-    command = command_stub + [cmd, 'return selected_variants']
+
+    command = command_stub + [f'{tell_co12} to set selected_variants to (get selected variants)', 'return selected_variants']
     selected_variants_list = applescript.command_to_python_list(command)
 
     # if there are less than 2 items in the list and the first item is empty
     if len(selected_variants_list) < 2 and selected_variants_list[0] == '':
-        msg = 'No images selected, select at least 1 image and run again'
-        applescript.display_dialog(msg)
+        applescript.display_dialog('No images selected, select at least 1 image and run again')
         selected_variants_list = None
 
     return selected_variants_list
 
 
 # adjustment values
-def set_adjustment_value(document,
-                         collection_id,
-                         variant_id,
-                         adjustment,
-                         value,
-                         value_is_quoted=True
-                         ):
+def set_adjustment_value(document, collection_id, variant_id, adjustment, value, value_is_quoted=True):
+
     # set adjustment to new value
     if value_is_quoted:
         value = f'"{value}"'
-    cmd = f"""{tell_co12} to tell its document "{document}" to tell its
-     collection id "{collection_id}" to set {adjustment} of adjustments of
-     variant id "{variant_id}" to {value}"""
-    command = command_stub + []
+    command = command_stub + [f'{tell_co12} to tell its document "{document}" to tell its collection id "{collection_id}" to set {adjustment} of adjustments of variant id "{variant_id}" to {value}']
     applescript.process(command)
 
     # get adjustment values list and return
-    adjustment_values = get_adjustment_values(document,
-                                              collection_id,
-                                              variant_id,
-                                              adjustment
-                                              )
-    return adjustment_values
+    adjustment_values = get_adjustment_values(document, collection_id, variant_id, adjustment)
 
+    return adjustment_values
 
 def get_adjustment_values(document, collection_id, variant_id, adjustment):
 
@@ -84,6 +117,7 @@ def get_adjustment_values(document, collection_id, variant_id, adjustment):
     adjustment_values = applescript.command_to_python_list(command)
 
     return adjustment_values
+
 
 # crop box -- crop isn't under adjustments
 def get_crop_box(document, collection_id, variant_id):
@@ -136,6 +170,7 @@ def get_primary_variant():
     primary_variant = applescript.command_to_python_list(command)[0]
     return primary_variant
 
+# primary variant functions
 def get_primary_variant_id():
     command = command_stub + [f'{tell_co12} to set primary_variant_id to id of primary variant', 'return primary_variant_id']
     primary_variant_id = applescript.command_to_python_list(command)[0]
@@ -175,16 +210,6 @@ def do_i_have_to_reset_the_primary_variant(document, collection_id, variant_id):
     return reset_variant_list
 
 
-class Document():
-
-    def __init__(self, variant):
-        self.info = variant.split('document ', 1)[1]
-        self.session_path = Path(co.get_session_directory_path(self.info))
-        self.capture_path = self.session_path.joinpath('Capture')
-        self.output_path = self.session_path.joinpath('Output')  # default output path
-        self.selects_path = self.session_path.joinpath('Selects')
-        self.trash_path = self.session_path.joinpath('Trash')
-
 class Variant():
 
     def __init__(self, selected_variant):
@@ -219,6 +244,7 @@ class Variant():
         return rotation_value
 
     def reset_crop(self):
+
         # get image dimensions of the parent image to reset the crop
         command = command_stub + [f'{tell_co12} to tell its document "{self.document}" to tell its collection id "{self.collection_id}" to set image_dimensions to dimensions of parent image of variant id "{self.id}"']
         image_dimensions = applescript.command_to_python_list(command)
@@ -260,6 +286,8 @@ class Variant():
             raise ValueError
 
         return self.rating
+
+
 
 
     def output_with_recipe(self, process_recipe):

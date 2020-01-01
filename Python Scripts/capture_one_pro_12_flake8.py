@@ -85,6 +85,7 @@ def get_adjustment_values(document, collection_id, variant_id, adjustment):
 
     return adjustment_values
 
+
 # crop box -- crop isn't under adjustments
 def get_crop_box(document, collection_id, variant_id):
 
@@ -93,6 +94,7 @@ def get_crop_box(document, collection_id, variant_id):
     crop_box = applescript.command_to_python_list(command)
 
     return crop_box
+
 
 def set_crop_box(document, collection_id, variant_id, crop_box):
 
@@ -109,16 +111,22 @@ def set_crop_box(document, collection_id, variant_id, crop_box):
 
     return crop_box
 
+
 # can be used for all non-adjustment values
-# TODO: could do an if/then to identify where a value might be so the user doesn't have to specify
+# TODO: could do an if/then to identify where a value might be
+# so the user doesn't have to specify
 def get_value(document, collection_id, variant_id, value):
-    command = command_stub + [f'{tell_co12} to tell its document "{document}" to tell its collection id "{collection_id}" to set current_value to {value} of variant id "{variant_id}"', 'return current_value']
+    cmd = f"""{tell_co12} to tell its document "{document}"
+     to tell its collection id "{collection_id}"
+     to set current_value to {value} of variant id "{variant_id}\""""
+    command = command_stub + [cmd, 'return current_value']
     current_value = applescript.command_to_python_list(command)
 
     if isinstance(current_value, list) and len(current_value) == 1:
         current_value = current_value[0]  # just return the first and only item in the list
 
     return current_value
+
 
 # document functions
 def get_session_directory_path(document, posix=True):
@@ -130,7 +138,7 @@ def get_session_directory_path(document, posix=True):
     session_directory_path = applescript.command_to_python_list(command)[0]
     return session_directory_path
 
-# primary variant functions
+# primary variant fun'ctions
 def get_primary_variant():
     command = command_stub + [f'{tell_co12} to set primary_variant to (get primary variant)', 'return primary_variant']
     primary_variant = applescript.command_to_python_list(command)[0]
@@ -183,7 +191,7 @@ class Document():
         self.capture_path = self.session_path.joinpath('Capture')
         self.output_path = self.session_path.joinpath('Output')  # default output path
         self.selects_path = self.session_path.joinpath('Selects')
-        self.trash_path = self.session_path.joinpath('Trash')
+        self.
 
 class Variant():
 

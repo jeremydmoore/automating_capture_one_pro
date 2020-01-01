@@ -1,4 +1,4 @@
-# new capture directory
+# set - directory
 
 # ============ imports ============ #
 import applescript
@@ -13,7 +13,8 @@ begin_message = f'Begin - Python - {Path(__file__).name}'
 end_message = f'End - Python - {Path(__file__).name}'
 
 # ============ functions ============ #
-def input_capture_directory_name():
+def input_directory_name(directory_name):
+    valid_capture_one_pro_12_directory_names = ['Capture', 'Output', 'Selects', 'Trash']
     collection = applescript.get_user_input('Capture directory collection', 'ex: lady-vols-basketball')
     # applescript.display_dialog(collection)
     volume = applescript.get_user_input(f'Capture directory volume', 'ex: 2001')

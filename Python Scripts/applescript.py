@@ -11,6 +11,26 @@ def display_dialog(message):
     dialog = process(command)
     return dialog
 
+
+def display_dialog_question(question, option_1, option_2, default_option=1):
+    if default_option != 1:
+        default_option = 2
+    # use double brackets for 1 bracket in f-string
+    # https://docs.python.org/3/reference/lexical_analysis.html#formatted-string-literals
+    buttons = f'buttons {{"{option_1}", "{option_2}"}}'
+    cmd = f"""Tell application \"System Events\" to set option to the button
+     returned of (display dialog \"{question}\" {buttons}
+     default button {default_option})"""
+    command = [f'{cmd}', 'return option']
+    user_input = command_to_python_list(command)
+
+    if user_input:
+        # get single string from list
+        user_input = user_input[0]
+
+    return user_input
+
+
 def display_notification(message):
     command = [f'Tell application \"System Events\" to display notification \"{message}\"']
     dialog = process(command)
@@ -21,7 +41,7 @@ def get_user_input_int(value_name, default_value, attempts_left=5):
     # only process if the default value is of the expected input type
     if isinstance(default_value, int):
 
-        command = [f'set value_name to text returned of (display dialog "Enter {value_name} (type: integer)\nAttempts left: {attempts_left}" default answer "{default_value}")', 'return value_name']
+        command = [f'set value_name to text returned of (display dialog "Enter {value_name} (type: integer)\nAttempts left: {attempts_left}" default option "{default_value}")', 'return value_name']
         user_input = command_to_python_list(command)
 
         if user_input:
@@ -39,14 +59,14 @@ def get_user_input_int(value_name, default_value, attempts_left=5):
     return user_input
 
 
-def get_user_input(value_name, default_value, attempts_left=5):
+def get_user_input(value_name, default_value):
     user_input = None
 
-    command = [f'set value_name to text returned of (display dialog "Enter {value_name}" default answer "{default_value}")', 'return value_name']
+    command = [f'set value_name to text returned of (display dialog "{value_name}" default option "{default_value}")', 'return value_name']
     user_input = command_to_python_list(command)
 
     if user_input:
-        # returned value should be a single string in a list
+        # get single string from list
         user_input = user_input[0]
 
     return user_input
