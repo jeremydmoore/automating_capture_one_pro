@@ -23,26 +23,6 @@ def disable_all_recipes():
     all_recipes_list = applescript.script_to_python_list(script_path)
     return all_recipes_list
 
-# def disable_all_recipes_no_script(document, collection_id):
-#     # set adjustment to new value
-#     command = command_stub + ['on run',
-#                               f'display dialog ("BEGIN - disable recipes in document " & {document} as text)',
-#                               'set output_list to {}',
-#                               f'{tell_co12}',
-#                               f'tell its document "{document}" to tell its collection id "{collection_id}"',
-#                               'repeat with counter from 1 to count of recipes',
-#                               'set the_recipe to item counter of recipes',
-#                               'set enabled to the_recipe to false',
-#                               'set end of disabled_recipes_list to quoted form of (get name of the_recipe) & space',
-#                               'end repeat',
-#                               'end tell',
-#                               'display dialog "END - disbale recipes"',
-#                               'return disabled_recipes_list',
-#                               'end run'
-#                              ]
-#     output_info_list = applescript.command_to_python_list(command)
-#     return output_info_list
-
 
 def enable_recipe(recipe_name):
     """
@@ -59,29 +39,6 @@ def enable_recipe(recipe_name):
     return output_info_list
 
 
-# def enable_recipe_no_script(document, collection_id, recipe_name):
-#     tell_co12_doc_and_collection = f'{tell_co12} to tell its document "{document}" to tell its collection id "{collection_id}"'
-#     # set adjustment to new value
-#     command = command_stub + [f'display dialog ("BEGIN - enable_recipe: " & {recipe_name} as text)',
-#                               'set output_list to {}',
-#                               f'{tell_co12}',
-#                               f'tell its document "{document}" to tell its collection id "{collection_id}"',
-#                               'set current recipe to recipe {recipe_name}',
-#                               'set enabled of current recipe to true',
-#                               'set recipe_output_folder to ((root folder location of current recipe as text) & (output sub folder of current recipe))',
-#                               'set output_folder_posix to (the quoted form of the POSIX path of recipe_output_folder)',
-#                               'set end of output_list to quoted form of output_folder_posix & space',
-#                               'set output_format to output format of current recipe',
-#                               'if output_format is JPEG then',
-#                               'set output_extension to ".jpg"',
-#                               'end if',
-#                               'set end of output_list to quoted form of output_extension & space',
-#                               'display dialog output_list',
-#                               f'display dialog ("END - enable_recipe: " & {recipe_name} as text)',
-#                               'return output_list'
-#                              ]
-#     output_info_list = applescript.command_to_python_list(command)
-#     return output_info_list
 
 
 def get_selected_variants():
@@ -169,7 +126,7 @@ def get_primary_variant():
     command = command_stub + [f'{tell_co12} to set primary_variant to (get primary variant)', 'return primary_variant']
     primary_variant = applescript.command_to_python_list(command)[0]
     return primary_variant
-    
+
 # primary variant functions
 def get_primary_variant_id():
     command = command_stub + [f'{tell_co12} to set primary_variant_id to id of primary variant', 'return primary_variant_id']

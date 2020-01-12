@@ -14,7 +14,7 @@ begin_message = f'Begin - Python - {Path(__file__).name}'
 end_message = f'End - Python - {Path(__file__).name}'
 autocrop_recipe_name = 'autocrop_jpg'
 
-## csv information
+# csv information
 hot_folder_directory_path = co.scripts_dir_path.joinpath('Hot Folder')
 
 fieldnames = ['image_name', 'image_path', 'variant', 'pixel_padding', 'autocrop_box', 'autocrop_rotation_angle', 'time_to_autocrop']
