@@ -38,6 +38,8 @@ def enable_recipe(recipe_name):
     return output_info_list
 
 
+
+
 def get_selected_variants():
     cmd = f'{tell_co12} to set selected_variants to (get selected variants)'
     command = command_stub + [cmd, 'return selected_variants']
@@ -129,6 +131,12 @@ def get_session_directory_path(document, posix=True):
     command = command_stub + [f'{tell_co12} to tell its document "{document}" to set document_path to {path_format}', 'return document_path']
     session_directory_path = applescript.command_to_python_list(command)[0]
     return session_directory_path
+
+# primary variant functions
+def get_primary_variant():
+    command = command_stub + [f'{tell_co12} to set primary_variant to (get primary variant)', 'return primary_variant']
+    primary_variant = applescript.command_to_python_list(command)[0]
+    return primary_variant
 
 # primary variant functions
 def get_primary_variant():
