@@ -7,8 +7,6 @@ import time
 
 from otsu_autocrop import autocrop as otsu_autocrop
 
-from kmeans_autocrop import NegativeScan, find_contours, find_external_rectangle, get_capture_one_coordinates
-
 # ============ variables ============ #
 begin_message = f'Begin - Python - {Path(__file__).name}'
 end_message = f'End - Python - {Path(__file__).name}'
@@ -67,18 +65,6 @@ if __name__ == '__main__':
         output_path = Path(output_location)
 
         selected_variant_dict = {}
-
-        # add variant info and output_path to dictionary to add to dataframe_rows_list
-        # for row in input_rows:
-        #
-        #         dict1 = {}
-        #         # get input row in dictionary format
-        #         # key = col_name
-        #         dict1.update(blah..)
-        #
-        #         rows_list.append(dict1)
-        #
-        # df = pd.DataFrame(dataframe_rows_list)
 
         # add data to dictionary file
         selected_variant_dict.update({'image_path': str(output_path)})
@@ -162,52 +148,4 @@ if __name__ == '__main__':
             applescript.display_dialog('No outputfile to AutoCrop')
             break
 
-
-
-        # add dictionary to dataframe rows list
-        # dataframe_rows_list.append(selected_variant_dict)
-
-
-
-        # if output_path.is_file():
-        #
-        #     # kmeans AutoCrop
-        #     # instantiate image
-        #     scan = NegativeScan(output_path)
-        #
-        #     # set autocrop_height
-        #     autocrop_height = scan.image_cv2.shape[0]  # numpy arrays: height, width, channels
-        #
-        #     # get binarized image
-        #     threshold = scan.threshold_kmeans()
-        #
-        #     # get contours
-        #     contours = find_contours(threshold)
-        #
-        #     # get rect, x, y, angle
-        #     rect, angle = find_external_rectangle(contours)
-        #
-        #     capture_one_crop_data = get_capture_one_coordinates(rect, angle, autocrop_height)
-        #
-        #     # AppleScript needs list as single string
-        #     applescript.display_dialog(f'crop data: {capture_one_crop_data}')
-        # else:
-        #     applescript.display_dialog('No image to process')
-
-    # use applescript process with list or text file of variants to output with autocrop recipe
-    # which also means it doesn't matter what recipe is selected so delect those actions above
-
-    # create dataframe
-    # to_process_dataframe = pd.DataFrame(dataframe_rows_list, columns=['image_name', 'image_path','variant', 'pixel_padding'])
-
-    # write processed_dictionary to text to autocrop using WatchDog?
-    # hot_file_name = 'autocrop_jpg'
-    # count = 1
-    # hot_file_output_path = hot_folder_directory_path.joinpath(f'{hot_file_name}_{str(count).zfill(8)}.csv')
-    # while hot_file_output_path.is_file():
-    #     count += 1
-    #     hot_file_output_path = hot_folder_directory_path.joinpath(f'{hot_file_name}_{str(count).zfill(8)}.csv')
-    # to_process_dataframe.to_csv(hot_file_output_path, index=False)
-
-    # add all
     applescript.display_dialog(end_message)
