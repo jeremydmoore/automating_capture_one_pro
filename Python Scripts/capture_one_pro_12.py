@@ -5,7 +5,7 @@ from pathlib import Path
 # ============ variables ============ #
 tell_co12 = 'Tell application "Capture One 12"'
 command_stub = ['use AppleScript version "2.4"', 'use scripting additions']
-scripts_dir_path = Path('/Users/dlisla/Library/Scripts/')  # CHANGE USER PATH!!
+scripts_dir_path = Path.home().joinpath('Library/Scripts')
 python_scripts_dir_path = scripts_dir_path.joinpath('Python Scripts')
 applescript_scripts_dir_path = scripts_dir_path.joinpath('AppleScript Scripts')
 
@@ -37,8 +37,6 @@ def enable_recipe(recipe_name):
     script_path = applescript_scripts_dir_path.joinpath(script_name)
     output_info_list = applescript.script_to_python_list(script_path, args=recipe_name)
     return output_info_list
-
-
 
 
 def get_selected_variants():

@@ -10,6 +10,7 @@ import applescript
 begin_message = f'Begin - Python - {Path(__file__).name}'
 end_message = f'End - Python - {Path(__file__).name}'
 
+<<<<<<< Updated upstream
 # path to csv with last user values
 csv_path = Path('/Users/jeremy/Documents/GitHub/automating_capture_one_pro/data/set_capture_directory_last_value.csv')
 fieldnames = ['collection', 'item']
@@ -18,6 +19,23 @@ fieldnames = ['collection', 'item']
 def input_capture_directory_name():
     # TODO: get last capture directory and
     collection = applescript.get_user_input('Capture directory collection', 'ex: lady-vols-basketball')
+=======
+data_directory_path = Path.home().joinpath('Library', 'Scripts', 'data')
+last_value_path = data_directory_path.joinpath('set_capture_directory_last_value.csv')
+
+# ============ functions ============ #
+
+
+def input_directory_name(directory_name):
+    valid_capture_one_pro_12_directory_names = ['Capture',
+                                                'Output',
+                                                'Selects',
+                                                'Trash'
+                                                ]
+    collection = applescript.get_user_input('Capture directory collection',
+                                            'ex: lady-vols-basketball'
+                                            )
+>>>>>>> Stashed changes
     # applescript.display_dialog(collection)
     volume = applescript.get_user_input(f'Capture directory volume', 'ex: 2001')
     # applescript.display_dialog(volume)
