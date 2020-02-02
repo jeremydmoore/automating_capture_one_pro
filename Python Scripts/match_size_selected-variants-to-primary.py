@@ -7,6 +7,9 @@ from pathlib import Path
 begin_message = f'Begin - Python - {Path(__file__).name}'
 end_message = f'End - Python - {Path(__file__).name}'
 
+# hot folder location for errors
+hot_folder_directory_path = co.scripts_dir_path.joinpath('Hot Folder')
+
 # ============ run script ============ #
 if __name__ == '__main__':
 
@@ -34,7 +37,7 @@ if __name__ == '__main__':
                 break
         # if the selected_variant is the primary variant then SKIP IT
         elif selected_variant == primary_variants_list[0]:
-            applescript.display_notification(f'Skip processing Primary Variant:\n{variant.image_name}\nVariant {index+1} of {len(selected_variants_list)}')
+            applescript.display_notification(f'Skip processing Primary Variant:\n{primary_variant.image_name}\nVariant {index+1} of {len(selected_variants_list)}')
             continue
 
         # instantiate co.Variant class with current selected variant
