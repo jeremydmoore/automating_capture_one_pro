@@ -65,7 +65,7 @@ if __name__ == '__main__':
             if stop_script_path.exists():
                 applescript.display_dialog(f'Error file exists: {stop_script_path}\nEnding Script')
                 break
-        # if the selected_variant is the primary primary variant then SKIP IT
+        # if the selected_variant is the primary variant then SKIP IT
         elif selected_variant == primary_variants_list[0]:
             continue
         time_autocrop_start = time.perf_counter()

@@ -180,6 +180,18 @@ class Variant():
         command = command_stub + [f'{tell_co12} to tell its document "{self.document}" to tell its collection id "{self.collection_id}" to set image_name to name of variant id "{self.id}"', 'return image_name']
         self.image_name = applescript.command_to_python_list(command)[0]  # get first item in list
 
+        # get orientation of image
+        self.orientation_degrees = get_adjustment_values(self.document, self.collection_id, self.id, 'orientation')[0] # get first item in list
+        if self.orientation_degrees == '0' or self.orientation_degrees == '180':
+            self.orientation = 'horizontal'
+        elif self.orientation_degrees == '90' or self.orientation_degrees == '270':
+            self.orientation = 'vertical'
+        else:
+            applescript.display_dialog(f'THE SPANISH INQUISITION!! -- Why is self.orientation_degrees == {self.orientation_degrees}?')
+
+        self.crop_box = get_crop_box(self.document, self.collection_id, self.id)
+        self.center_x, self.center_y, self.width, self.height = float(*self.crop_box)  # should cast as integer and verify
+
         # reset_variant_list in form of [Boolean, old_primary_variant_document, old_primary_variant_id]
         # self.reset_variant_list = do_i_have_to_reset_the_primary_variant(self.document, self.collection_id, self.id)
 
