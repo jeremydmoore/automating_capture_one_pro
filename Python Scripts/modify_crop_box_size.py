@@ -70,5 +70,5 @@ if __name__ == '__main__':
 
         check_crop_box = co.get_crop_box(variant.document, variant.collection_id, variant.id)
         if new_crop_box != check_crop_box:
-            applescript.display_info(f'expected crop_box {new_crop_box} is not equal to actual crop_box {check_crop_box}')
+            applescript.display_dialog(f'expected crop_box {new_crop_box} is not equal to actual crop_box {check_crop_box}')
             # TODO: attempt to reset to old crop value

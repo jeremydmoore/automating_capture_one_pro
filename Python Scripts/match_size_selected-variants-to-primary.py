@@ -23,7 +23,7 @@ if __name__ == '__main__':
 
     number_of_selected_variants = len(selected_variants_list)
 
-    # reset crop/rotation on selected image starting with the 2nd image
+    # process selected variants
     for index, selected_variant in enumerate(selected_variants_list):
 
         # horribly primitive error handling
@@ -34,6 +34,7 @@ if __name__ == '__main__':
                 break
         # if the selected_variant is the primary variant then SKIP IT
         elif selected_variant == primary_variants_list[0]:
+            applescript.display_notification(f'Skip processing Primary Variant:\n{variant.image_name}\nVariant {index+1} of {len(selected_variants_list)}')
             continue
 
         # instantiate co.Variant class with current selected variant
@@ -46,10 +47,11 @@ if __name__ == '__main__':
 
         new_crop_box = [variant.center_x, variant.center_y, new_width, new_height]
 
+        variant.set_crop_box(new_crop_box)
 
-
-
-
-
+        if variant.width != primary_variant.width or variant.height != primary_variant.height:
+            applescript.display_dialog(f'Width or Height not set correctly for {variant.image_name}')
+        else:
+            applescript.display_notification(f'Crop set for {variant.image_name}\nVariant {index+1} of {len(selected_variants_list)}')
 
     applescript.display_dialog(end_message)

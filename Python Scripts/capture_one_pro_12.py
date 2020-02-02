@@ -98,6 +98,10 @@ def set_crop_box(document, collection_id, variant_id, crop_box):
 
     return crop_box
 
+def unpack_crop_box(crop_box):
+    crop_box = [round(float(x)) for x in crop_box]
+    return crop_box[:]
+
 # can be used for all non-adjustment values
 # TODO: could do an if/then to identify where a value might be so the user doesn't have to specify
 def get_value(document, collection_id, variant_id, value):
@@ -190,7 +194,7 @@ class Variant():
             applescript.display_dialog(f'THE SPANISH INQUISITION!! -- Why is self.orientation_degrees == {self.orientation_degrees}?')
 
         self.crop_box = get_crop_box(self.document, self.collection_id, self.id)
-        self.center_x, self.center_y, self.width, self.height = float(*self.crop_box)  # should cast as integer and verify
+        self.center_x, self.center_y, self.width, self.height = unpack_crop_box(self.crop_box)
 
         # reset_variant_list in form of [Boolean, old_primary_variant_document, old_primary_variant_id]
         # self.reset_variant_list = do_i_have_to_reset_the_primary_variant(self.document, self.collection_id, self.id)
@@ -227,6 +231,13 @@ class Variant():
         # reset_variant_list in form of [Boolean, old_primary_variant_collection_id, old_primary_variant_document, old_primary_variant_id]
         if self.reset_variant_list is True:
             set_variant_as_primary(self.reset_variant_list[1], self.reset_variant_list[2], self.reset_variant_list[3])
+
+    def set_crop_box(self, crop_box):
+        # crop_box is list in form [center_x, center_y, width, height]
+        self.crop_box = set_crop_box(self.document, self.collection_id, self.id, crop_box)
+        self.center_x, self.center_y, self.width, self.height = unpack_crop_box(self.crop_box)
+
+    
 
     def set_star_rating(self, rating):
         """
