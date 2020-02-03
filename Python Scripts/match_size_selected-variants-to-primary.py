@@ -37,7 +37,7 @@ if __name__ == '__main__':
                 break
         # if the selected_variant is the primary variant then SKIP IT
         elif selected_variant == primary_variants_list[0]:
-            applescript.display_notification(f'Skip processing Primary Variant:\n{primary_variant.image_name}\nVariant {index+1} of {len(selected_variants_list)}')
+            applescript.display_notification(f'Skip processing Primary Variant:\n{primary_variant.image_name}\nVariant {index+1} of {number_of_selected_variants}')
             continue
 
         # instantiate co.Variant class with current selected variant
@@ -55,6 +55,6 @@ if __name__ == '__main__':
         if variant.width != primary_variant.width or variant.height != primary_variant.height:
             applescript.display_dialog(f'Width or Height not set correctly for {variant.image_name}')
         else:
-            applescript.display_notification(f'Crop set for {variant.image_name}\nVariant {index+1} of {len(selected_variants_list)}')
+            applescript.display_notification(f'Crop set for {variant.image_name}\nVariant {index+1} of {number_of_selected_variants}')
 
     applescript.display_dialog(end_message)
