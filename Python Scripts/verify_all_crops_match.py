@@ -54,7 +54,7 @@ if __name__ == '__main__':
 
     if len(widths) > 1:
         if len(widths) == 2:
-            if widths[0] == widths[1]:  # then correct size, we just have both orientations
+            if widths[0] == heights[1]:  # then correct size, we just have both orientations
                 pass
             else:  # too many widths!
                 applescript.display_dialog(f'Too many widths: {widths}')
@@ -62,7 +62,7 @@ if __name__ == '__main__':
 
         if len(heights) > 1:
             if len(heights) == 2:
-                if heights[0] == heights[1]:  # then correct size, we just have both orientations
+                if heights[0] == widths[1]:  # then correct size, we just have both orientations
                     pass
                 else:  # too many heights!
                     applescript.display_dialog(f'Too many heights: {heights}')
