@@ -237,8 +237,6 @@ class Variant():
         self.crop_box = set_crop_box(self.document, self.collection_id, self.id, crop_box)
         self.center_x, self.center_y, self.width, self.height = unpack_crop_box(self.crop_box)
 
-    
-
     def set_star_rating(self, rating):
         """
         Set star rating of image to value {rating}
