@@ -29,7 +29,9 @@ if __name__ == '__main__':
     # applescript.display_dialog(selected_variants_list)
 
     # get pixel padding input
-    pixel_padding = applescript.get_user_input_int('pixel_padding', 25)
+    pixel_padding = applescript.get_user_input_int('pixel_padding', 35)
+    camera_height = applescript.get_user_input_int('camera_height (default= Fuji50s; SonyA7r2=5304)', 6192)
+    camera_width = applescript.get_user_input_int('camera_width (default: Fuji 50s, SonyA7r2=7952)', 8256)
     # applescript.display_dialog(f'Pixel padding: {pixel_padding}')
 
     number_of_selected_variants = len(selected_variants_list)
