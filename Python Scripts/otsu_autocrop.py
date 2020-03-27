@@ -173,7 +173,7 @@ def get_capture_one_coordinates(rect, angle, autocrop_height, camera_height, cam
 
     return capture_one_data_as_str
 
-def autocrop(image_path, pixel_padding, camera_height=, camera_width=8256, compression=None, dpi=None, rotate_odd_even=False):
+def autocrop(image_path, pixel_padding, camera_height, camera_width, compression=None, dpi=None, rotate_odd_even=False):
 
     # set debug directory one up from the location of the _autocrop_jpg directory
     debug_directory_path = image_path.parents[1].joinpath('_autocrop_jpg', f'_debug_{image_path.stem}')

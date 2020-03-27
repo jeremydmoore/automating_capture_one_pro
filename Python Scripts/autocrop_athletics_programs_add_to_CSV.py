@@ -30,8 +30,13 @@ if __name__ == '__main__':
 
     # get pixel padding input
     pixel_padding = applescript.get_user_input_int('pixel_padding', 35)
-    camera_height = applescript.get_user_input_int('camera_height (default= Fuji50s; SonyA7r2=5304)', 6192)
-    camera_width = applescript.get_user_input_int('camera_width (default: Fuji 50s, SonyA7r2=7952)', 8256)
+    camera = applescript.get_user_input_int('fuji = 1 or sony = 2', 1)
+    if camera == 1:  # fuji 50s
+        camera_height = 6192
+        camera_width = 8256
+    elif camera == 2:  # sony a7r2
+        camera_height = 5304
+        camera_width = 7952
     # applescript.display_dialog(f'Pixel padding: {pixel_padding}')
 
     number_of_selected_variants = len(selected_variants_list)
@@ -85,7 +90,7 @@ if __name__ == '__main__':
             applescript.display_notification(f'Auto Cropping: {variant.image_name}\n# {index+1}/{number_of_selected_variants}')
 
             # autocrop with Otsu
-            capture_one_crop_data = otsu_autocrop(output_path, pixel_padding=pixel_padding)
+            capture_one_crop_data = otsu_autocrop(output_path, pixel_padding=pixel_padding, camera_height, camera_width)
 
 
             # ## AutoCrop with KMeans
