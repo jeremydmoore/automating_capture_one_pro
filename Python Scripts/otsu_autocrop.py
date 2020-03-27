@@ -122,13 +122,13 @@ def find_external_rectangle(contours, image_original, minimum_area = 150000):
 
     return rect, angle, x, y, contour_image
 
-def get_capture_one_coordinates(rect, angle, autocrop_height, pixel_padding=0, camera_width = 8256, camera_height = 6192):
+def get_capture_one_coordinates(rect, angle, autocrop_height, pixel_padding=0, camera_height, camera_width):
 
     ratio = camera_height / autocrop_height # autocrop_height is height of image being cropped
 
     # multiply the rectangle by the original ratio
     if rect is None or rect == []:  # if rect empty then set to bounds of full image
-        rect = [(0, 0), (8256, 0), (8256, 6192), (0, 6192)]
+        rect = [(0, 0), (camera_width, 0), (camera_width, camera_height), (0, camera_height)]
     else:  # multiply by ratio
         rect *= ratio
 
@@ -173,7 +173,7 @@ def get_capture_one_coordinates(rect, angle, autocrop_height, pixel_padding=0, c
 
     return capture_one_data_as_str
 
-def autocrop(image_path, pixel_padding, compression=None, dpi=None, rotate_odd_even=False):
+def autocrop(image_path, pixel_padding, camera_height, camera_width, compression=None, dpi=None, rotate_odd_even=False):
 
     # set debug directory one up from the location of the _autocrop_jpg directory
     debug_directory_path = image_path.parents[1].joinpath('_autocrop_jpg', f'_debug_{image_path.stem}')
@@ -324,7 +324,7 @@ def autocrop(image_path, pixel_padding, compression=None, dpi=None, rotate_odd_e
         # #
         # # pillow_image.save(output_path, compression=compression, dpi=(dpi, dpi))
 
-    capture_one_data_as_str = get_capture_one_coordinates(rect, angle, autocrop_height, pixel_padding=pixel_padding)
+    capture_one_data_as_str = get_capture_one_coordinates(rect, angle, autocrop_height, pixel_padding=pixel_padding, camera_height, camera_width)
     # # multiply the rectangle by the original ratio
     # rect *= ratio
     #
