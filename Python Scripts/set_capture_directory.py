@@ -4,7 +4,7 @@
 import csv
 from pathlib import Path
 
-import capture_one_pro_12 as co
+import capture_one_pro_20 as co
 import applescript
 # ============ variables ============ #
 begin_message = f'Begin - Python - {Path(__file__).name}'

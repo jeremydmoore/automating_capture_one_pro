@@ -2,7 +2,7 @@
 
 # ============ imports ============ #
 import applescript
-import capture_one_pro_12 as co
+import capture_one_pro_20 as co
 from pathlib import Path
 
 

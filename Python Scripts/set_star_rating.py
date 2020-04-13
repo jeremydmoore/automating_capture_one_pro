@@ -1,6 +1,6 @@
 # ============ imports ============ #
 import applescript
-import capture_one_pro_12 as co
+import capture_one_pro_20 as co
 from pathlib import Path
 
 # ============ run script ============ #
@@ -10,7 +10,7 @@ if __name__ == '__main__':
     arg_parser.add_argument("--rating", required=True, help="Number of stars to rate an image")
     args = vars(arg_parser.parse_args())
 
-    command = co.command_stub + [f'{co.tell_co12} to set primary_variant to (get primary variant)', 'return primary_variant']
+    command = co.command_stub + [f'{co.tell_co20} to set primary_variant to (get primary variant)', 'return primary_variant']
     primary_variants_list = applescript.command_to_python_list(command)
     primary_variant = co.Variant(primary_variants_list[0])
 

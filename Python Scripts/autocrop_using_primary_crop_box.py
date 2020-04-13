@@ -1,6 +1,6 @@
 # ============ imports ============ #
 import applescript
-import capture_one_pro_12 as co
+import capture_one_pro_20 as co
 from pathlib import Path
 import csv
 import time
@@ -30,7 +30,7 @@ if __name__ == '__main__':
 
     # applescript.display_dialog(selected_variants_list)
 
-    command = co.command_stub + [f'{co.tell_co12} to set primary_variant to (get primary variant)', 'return primary_variant']
+    command = co.command_stub + [f'{co.tell_co20} to set primary_variant to (get primary variant)', 'return primary_variant']
     primary_variants_list = applescript.command_to_python_list(command)
 
     primary_variant = co.Variant(primary_variants_list[0])
@@ -38,7 +38,7 @@ if __name__ == '__main__':
 
     # get pre_crop_orientation_value then reset orientation
     pre_crop_orientation_value = co.get_adjustment_values(primary_variant.document, primary_variant.collection_id, primary_variant.id, 'orientation')[0]  # get first item in list
-    orientation_value = co.set_adjustment_value(primary_variant.document, primary_variant.collection_id, primary_variant.id, 'orientation', '0')[0]  # get first item in list
+    orientation_value = co.set_adjustment_value(primary_variant.document, primary_variant.collection_id, primary_variant.id, 'orientation', '0')[0]  # set first item in list
 
     # crop_box data in form of [center_x, center_y, width, height]
     crop_box_from_primary_variant = co.get_crop_box(primary_variant.document, primary_variant.collection_id, primary_variant.id)
@@ -51,7 +51,7 @@ if __name__ == '__main__':
 
     # # set height and width first variant in selected variants list
     # variant = co.Variant(selected_variants_list[0])
-    # command = co.command_stub + [f'{co.tell_co12} to tell its document "{variant.document}" to tell its collection id "{variant.collection_id}" to set crop_box to crop of variant id "{variant.id}"', 'return image_dimensions']
+    # command = co.command_stub + [f'{co.tell_co20} to tell its document "{variant.document}" to tell its collection id "{variant.collection_id}" to set crop_box to crop of variant id "{variant.id}"', 'return image_dimensions']
     # crop_box = applescript.command_to_python_list(command)
     # applescript.display_dialog(image_dimensions)
     # width, height = float(image_dimensions[0]), float(image_dimensions[1])
@@ -60,7 +60,7 @@ if __name__ == '__main__':
 
     # reset crop/rotation on selected image starting with the 2nd image
     for index, selected_variant in enumerate(selected_variants_list):
-        if index > 0 and index % 5 == 0:
+        if index > 0 and index % 3 == 0:
             stop_script_path = hot_folder_directory_path.joinpath('ERROR.ERROR')
             if stop_script_path.exists():
                 applescript.display_dialog(f'Error file exists: {stop_script_path}\nEnding Script')
@@ -80,7 +80,7 @@ if __name__ == '__main__':
         # applescript.display_dialog(f'rotation before: {rotation_value}\nflip before: {flip_value}\ncrop before: {crop_box}')
 
         # reset orientation, flip, rotation, and crop
-        orientation_value = co.set_adjustment_value(variant.document, variant.collection_id, variant.id, 'orientation', '0')[0]  # get first item in list
+        orientation_value = co.set_adjustment_value(variant.document, variant.collection_id, variant.id, 'orientation', '0')[0]  # set first item in list
         flip_value = variant.reset_flip()
         rotation_value = variant.reset_rotation()
         crop_box = variant.reset_crop()  # is this an incorrect method?

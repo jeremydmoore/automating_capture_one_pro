@@ -1,6 +1,6 @@
 # ============ imports ============ #
 import applescript
-import capture_one_pro_12 as co
+import capture_one_pro_20 as co
 from pathlib import Path
 
 # ============ variables ============ #
@@ -16,7 +16,7 @@ if __name__ == '__main__':
     applescript.display_dialog(begin_message)
 
     # get primary variant
-    command = co.command_stub + [f'{co.tell_co12} to set primary_variant to (get primary variant)', 'return primary_variant']
+    command = co.command_stub + [f'{co.tell_co20} to set primary_variant to (get primary variant)', 'return primary_variant']
     primary_variants_list = applescript.command_to_python_list(command)  # TODO: refactor and remove list if only 1 item
     primary_variant = co.Variant(primary_variants_list[0])
     applescript.display_dialog(f'Primary variant image: {primary_variant.image_name}\nOrientation: {primary_variant.orientation}\nHeight: {primary_variant.height}')
