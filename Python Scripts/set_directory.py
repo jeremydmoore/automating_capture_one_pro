@@ -9,7 +9,7 @@ from pathlib import Path
 # ============ variables ============ #
 begin_message = f'Begin - Python - {Path(__file__).name}'
 end_message = f'End - Python - {Path(__file__).name}'
-capture_one_pro_12_directory_names = ['Capture', 'Output', 'Selects', 'Trash']
+capture_one_pro_20_directory_names = ['Capture', 'Output', 'Selects', 'Trash']
 data_directory_path = Path.home().joinpath('Library', 'Scripts', 'data')
 last_value_path = data_directory_path.joinpath('set_directory_last_value.csv')
 
@@ -17,7 +17,7 @@ last_value_path = data_directory_path.joinpath('set_directory_last_value.csv')
 
 
 def input_directory_name(directory):
-    if directory not in capture_one_pro_12_directory_names:
+    if directory not in capture_one_pro_20_directory_names:
         return None
     collection = applescript.get_user_input('Capture directory collection',
                                             'ex: lady-vols-basketball')

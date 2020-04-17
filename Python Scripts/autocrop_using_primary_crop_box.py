@@ -7,7 +7,7 @@ import time
 
 from otsu_autocrop import autocrop as otsu_autocrop
 
-from kmeans_autocrop import NegativeScan, find_contours, find_external_rectangle, get_capture_one_coordinates
+# from kmeans_autocrop import NegativeScan, find_contours, find_external_rectangle, get_capture_one_coordinates
 
 # ============ variables ============ #
 begin_message = f'Begin - Python - {Path(__file__).name}'
@@ -122,8 +122,10 @@ if __name__ == '__main__':
             applescript.display_notification(f'{variant.image_name} is file and took {count} seconds')
             applescript.display_notification(f'Auto Cropping: {variant.image_name}\n# {index+1}/{number_of_selected_variants}')
 
+            # hard-code pixel_padding as 0 since we're matching other images
+            pixel_padding = 0
             # autocrop with Otsu
-            capture_one_crop_data = otsu_autocrop(output_path, pixel_padding=0)
+            capture_one_crop_data = otsu_autocrop(output_path, pixel_padding, camera_height, camera_width)
 
 
             # ## AutoCrop with KMeans

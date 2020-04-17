@@ -3,7 +3,7 @@ import applescript
 from pathlib import Path
 
 # ============ variables ============ #
-tell_co12 = 'Tell application "Capture One 12"'
+tell_co = 'Tell application "Capture One 12"'
 command_stub = ['use AppleScript version "2.4"', 'use scripting additions']
 scripts_dir_path = Path.home().joinpath('Library/Scripts')
 python_scripts_dir_path = scripts_dir_path.joinpath('Python Scripts')
@@ -41,7 +41,7 @@ def enable_recipe(recipe_name):
 
 def get_selected_variants():
 
-    command = command_stub + [f'{tell_co12} to set selected_variants to (get selected variants)', 'return selected_variants']
+    command = command_stub + [f'{tell_co} to set selected_variants to (get selected variants)', 'return selected_variants']
     selected_variants_list = applescript.command_to_python_list(command)
 
     # if there are less than 2 items in the list and the first item is empty
@@ -58,7 +58,7 @@ def set_adjustment_value(document, collection_id, variant_id, adjustment, value,
     # set adjustment to new value
     if value_is_quoted:
         value = f'"{value}"'
-    command = command_stub + [f'{tell_co12} to tell its document "{document}" to tell its collection id "{collection_id}" to set {adjustment} of adjustments of variant id "{variant_id}" to {value}']
+    command = command_stub + [f'{tell_co} to tell its document "{document}" to tell its collection id "{collection_id}" to set {adjustment} of adjustments of variant id "{variant_id}" to {value}']
     applescript.process(command)
 
     # get adjustment values list and return
@@ -68,7 +68,7 @@ def set_adjustment_value(document, collection_id, variant_id, adjustment, value,
 
 def get_adjustment_values(document, collection_id, variant_id, adjustment):
 
-    command = command_stub + [f'{tell_co12} to tell its document "{document}" to tell its collection id "{collection_id}" to set adjustment_values to {adjustment} of adjustments of variant id "{variant_id}"', 'return adjustment_values']
+    command = command_stub + [f'{tell_co} to tell its document "{document}" to tell its collection id "{collection_id}" to set adjustment_values to {adjustment} of adjustments of variant id "{variant_id}"', 'return adjustment_values']
     adjustment_values = applescript.command_to_python_list(command)
 
     return adjustment_values
@@ -78,7 +78,7 @@ def get_adjustment_values(document, collection_id, variant_id, adjustment):
 def get_crop_box(document, collection_id, variant_id):
 
 
-    command = command_stub + [f'{tell_co12} to tell its document "{document}" to tell its collection id "{collection_id}" to set crop_box to crop of variant id "{variant_id}"', 'return crop_box']
+    command = command_stub + [f'{tell_co} to tell its document "{document}" to tell its collection id "{collection_id}" to set crop_box to crop of variant id "{variant_id}"', 'return crop_box']
     crop_box = applescript.command_to_python_list(command)
 
     return crop_box
@@ -91,7 +91,7 @@ def set_crop_box(document, collection_id, variant_id, crop_box):
                               f'set width to ({crop_box[2]} as number)',
                               f'set height to ({crop_box[3]} as number)',
                               'set crop_box to {center_x, center_y, width, height}',
-                              f'{tell_co12} to tell its document "{document}" to tell its collection id "{collection_id}" to set crop of variant id "{variant_id}" to crop_box'
+                              f'{tell_co} to tell its document "{document}" to tell its collection id "{collection_id}" to set crop of variant id "{variant_id}" to crop_box'
                              ]
     applescript.process(command)
     crop_box = get_crop_box(document, collection_id, variant_id)
@@ -105,7 +105,7 @@ def unpack_crop_box(crop_box):
 # can be used for all non-adjustment values
 # TODO: could do an if/then to identify where a value might be so the user doesn't have to specify
 def get_value(document, collection_id, variant_id, value):
-    command = command_stub + [f'{tell_co12} to tell its document "{document}" to tell its collection id "{collection_id}" to set current_value to {value} of variant id "{variant_id}"', 'return current_value']
+    command = command_stub + [f'{tell_co} to tell its document "{document}" to tell its collection id "{collection_id}" to set current_value to {value} of variant id "{variant_id}"', 'return current_value']
     current_value = applescript.command_to_python_list(command)
 
     if isinstance(current_value, list) and len(current_value) == 1:
@@ -119,34 +119,34 @@ def get_session_directory_path(document, posix=True):
         path_format = 'POSIX path of (get folder)'
     else:
         path_format = '(get folder)'
-    command = command_stub + [f'{tell_co12} to tell its document "{document}" to set document_path to {path_format}', 'return document_path']
+    command = command_stub + [f'{tell_co} to tell its document "{document}" to set document_path to {path_format}', 'return document_path']
     session_directory_path = applescript.command_to_python_list(command)[0]
     return session_directory_path
 
 # primary variant functions
 def get_primary_variant():
-    command = command_stub + [f'{tell_co12} to set primary_variant to (get primary variant)', 'return primary_variant']
+    command = command_stub + [f'{tell_co} to set primary_variant to (get primary variant)', 'return primary_variant']
     primary_variant = applescript.command_to_python_list(command)[0]
     return primary_variant
 
 # primary variant functions
 def get_primary_variant_id():
-    command = command_stub + [f'{tell_co12} to set primary_variant_id to id of primary variant', 'return primary_variant_id']
+    command = command_stub + [f'{tell_co} to set primary_variant_id to id of primary variant', 'return primary_variant_id']
     primary_variant_id = applescript.command_to_python_list(command)[0]
     return primary_variant_id
 
 def get_primary_variant_document():
-    command = command_stub + [f'{tell_co12} to set primary_variant_document to document of primary variant', 'return primary_variant_document']
+    command = command_stub + [f'{tell_co} to set primary_variant_document to document of primary variant', 'return primary_variant_document']
     primary_variant_document = applescript.command_to_python_list(command)[0]
     return get_primary_variant_document
 
 def get_primary_variant_collection_id():
-    command = command_stub + [f'{tell_co12} to set primary_variant_collection_id to document of primary variant', 'return primary_variant_document']
+    command = command_stub + [f'{tell_co} to set primary_variant_collection_id to document of primary variant', 'return primary_variant_document']
     primary_variant_collection_id = applescript.command_to_python_list(command)[0]
     return primary_variant_collection_id
 
 def set_variant_as_primary(document, collection_id, variant_id):
-    command = command_stub + [f'{tell_co12} to set primary variant to variant {variant_id} of collection {collection_id} of document {document}']
+    command = command_stub + [f'{tell_co} to set primary variant to variant {variant_id} of collection {collection_id} of document {document}']
     applescript.process(command)
     new_primary_variant_id = get_primary_variant_id()
     if variant_id != new_primary_variant_id:
@@ -181,7 +181,7 @@ class Variant():
         self.collection_id = info_list[6]
         self.document = info_list[-1]
         # get name of image to be processed
-        command = command_stub + [f'{tell_co12} to tell its document "{self.document}" to tell its collection id "{self.collection_id}" to set image_name to name of variant id "{self.id}"', 'return image_name']
+        command = command_stub + [f'{tell_co} to tell its document "{self.document}" to tell its collection id "{self.collection_id}" to set image_name to name of variant id "{self.id}"', 'return image_name']
         self.image_name = applescript.command_to_python_list(command)[0]  # get first item in list
 
         # get orientation of image
@@ -217,7 +217,7 @@ class Variant():
     def reset_crop(self):
 
         # get image dimensions of the parent image to reset the crop
-        command = command_stub + [f'{tell_co12} to tell its document "{self.document}" to tell its collection id "{self.collection_id}" to set image_dimensions to dimensions of parent image of variant id "{self.id}"']
+        command = command_stub + [f'{tell_co} to tell its document "{self.document}" to tell its collection id "{self.collection_id}" to set image_dimensions to dimensions of parent image of variant id "{self.id}"']
         image_dimensions = applescript.command_to_python_list(command)
 
         width, height = int(image_dimensions[0]), int(image_dimensions[1])
@@ -250,7 +250,7 @@ class Variant():
             raise ValueError
 
         # set AppleScript command & run it
-        command = command_stub + [f'{tell_co12} to tell its document "{self.document}" to tell its collection id "{self.collection_id}" to set rating of variant id "{self.id}" to "{rating}"']
+        command = command_stub + [f'{tell_co} to tell its document "{self.document}" to tell its collection id "{self.collection_id}" to set rating of variant id "{self.id}" to "{rating}"']
         applescript.process(command)
 
         # get rating value -- grab 1st item in returned list and get
@@ -270,7 +270,7 @@ class Variant():
         # applescript.display_dialog(self.image_name)
 
         # get process_recipe's output location
-        command = command_stub + [f'{tell_co12} to tell its document "{self.document}" to set recipe_output_folder to ((root folder location of current recipe as text) & (output sub folder of recipe "{process_recipe}"))',
+        command = command_stub + [f'{tell_co} to tell its document "{self.document}" to set recipe_output_folder to ((root folder location of current recipe as text) & (output sub folder of recipe "{process_recipe}"))',
                                   'set output_folder_posix to (quoted form of the POSIX path of recipe_output_folder)',
                                   'return output_folder_posix']
         output_folder_posix = applescript.command_to_python_list(command)[0]  # get first item in list
@@ -299,10 +299,10 @@ class Variant():
             applescript.display_dialog(f'ERROR image exists before output: {expected_output_path}')
         else:
             # process image with process_recipe
-            command = command_stub + [f'{tell_co12} to tell its document "{self.document}" to tell its collection id "{self.collection_id}" to process variant id "{self.id}" recipe "{process_recipe}"']
+            command = command_stub + [f'{tell_co} to tell its document "{self.document}" to tell its collection id "{self.collection_id}" to process variant id "{self.id}" recipe "{process_recipe}"']
             applescript.process(command)
 
             return self.expected_output_path
 
         # return path of processed image
-        #command = command_stub + [f'{tell_co12}'
+        #command = command_stub + [f'{tell_co}'

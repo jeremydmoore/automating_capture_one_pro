@@ -73,9 +73,11 @@ def rotate(image, angle, center=None, scale=1.0):
     return rotated
 
 def find_contours(image_binarized):
-
-    # find the contours in the thresholded image keeping the external one
-    _, contours, hierarchy = cv2.findContours(image_binarized, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
+    '''
+    Find the contours in the thresholded image keeping the external one
+    '''
+    # cv2.findContours() returns 2 values in openCV 4+
+    contours, hierarchy = cv2.findContours(image_binarized, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
 
     return contours
 

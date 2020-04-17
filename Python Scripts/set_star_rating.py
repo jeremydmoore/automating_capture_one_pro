@@ -1,3 +1,5 @@
+# NOTE: this is unneeded if you can send a hotkey from a keyboard command instead
+
 # ============ imports ============ #
 import applescript
 import capture_one_pro_20 as co
