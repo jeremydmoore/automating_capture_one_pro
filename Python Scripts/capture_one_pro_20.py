@@ -83,6 +83,16 @@ def get_crop_box(document, collection_id, variant_id):
 
     return crop_box
 
+
+def get_parent_image_dimensions(document, collection_id, variant_id):
+    # get image dimensions of the parent image to reset the crop
+    command = command_stub + [f'{tell_co} to tell its document "{document}" to tell its collection id "{collection_id}" to set image_dimensions to dimensions of parent image of variant id "{variant_id}"']
+    image_dimensions = applescript.command_to_python_list(command)
+
+    width, height = int(image_dimensions[0]), int(image_dimensions[1])
+
+    return width, height
+
 def set_crop_box(document, collection_id, variant_id, crop_box):
 
     # crop_box is list in form [center_x, center_y, width, height]
@@ -196,6 +206,12 @@ class Variant():
         self.crop_box = get_crop_box(self.document, self.collection_id, self.id)
         self.center_x, self.center_y, self.width, self.height = unpack_crop_box(self.crop_box)
 
+        # get width and height of original (or "parent" in CO speak) in landscape orientation
+        if self.orientation == 'horizontal':
+            self.parent_width, self.parent_height = get_parent_image_dimensions(self.document, self.collection_id, self.id)
+        else:  # the image is vertical and need to swap the parent_width/_height assignments
+            self.parent_height, self.parent_width = get_parent_image_dimensions(self.document, self.collection_id, self.id)
+
         # reset_variant_list in form of [Boolean, old_primary_variant_document, old_primary_variant_id]
         # self.reset_variant_list = do_i_have_to_reset_the_primary_variant(self.document, self.collection_id, self.id)
 
@@ -246,14 +262,9 @@ class Variant():
 
     def reset_crop(self):
 
-        # get image dimensions of the parent image to reset the crop
-        command = command_stub + [f'{tell_co} to tell its document "{self.document}" to tell its collection id "{self.collection_id}" to set image_dimensions to dimensions of parent image of variant id "{self.id}"']
-        image_dimensions = applescript.command_to_python_list(command)
-
-        width, height = int(image_dimensions[0]), int(image_dimensions[1])
-        center_x = width / 2
-        center_y = height / 2
-        crop_box = [center_x, center_y, width, height]
+        center_x = self.parent_width / 2
+        center_y = self.parent_height / 2
+        crop_box = [center_x, center_y, self.parent_width, self.parent_height]
         crop_box = set_crop_box(self.document, self.collection_id, self.id, crop_box)
         return crop_box
 

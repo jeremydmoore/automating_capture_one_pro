@@ -36,7 +36,7 @@ if __name__ == '__main__':
     primary_variant = co.Variant(primary_variants_list[0])
     # applescript.display_dialog(primary_variant)
 
-    # get pre_crop_orientation_value then reset orientation
+    # get pre_crop_orientation_value then reset orientation to unrotated
     pre_crop_orientation_value = co.get_adjustment_values(primary_variant.document, primary_variant.collection_id, primary_variant.id, 'orientation')[0]  # get first item in list
     orientation_value = co.set_adjustment_value(primary_variant.document, primary_variant.collection_id, primary_variant.id, 'orientation', '0')[0]  # set first item in list
 
@@ -45,7 +45,7 @@ if __name__ == '__main__':
     width, height = float(crop_box_from_primary_variant[2]), float(crop_box_from_primary_variant[3])
     # applescript.display_dialog(f'width: {width}\nheight: {height}')
 
-    # reset orientation to orignal value
+    # reset orientation to original value
     if pre_crop_orientation_value != orientation_value:
         post_crop_orientation_value = co.set_adjustment_value(primary_variant.document, primary_variant.collection_id, primary_variant.id, 'orientation', pre_crop_orientation_value)[0]  # get first item in list
 
@@ -125,7 +125,8 @@ if __name__ == '__main__':
             # hard-code pixel_padding as 0 since we're matching other images
             pixel_padding = 0
             # autocrop with Otsu
-            capture_one_crop_data = otsu_autocrop(output_path, pixel_padding, camera_height, camera_width)
+            applescript.display_dialog(f'parent_height: {variant.parent_height}\nparent_width: {variant.parent_width}')
+            capture_one_crop_data = otsu_autocrop(output_path, pixel_padding, variant.parent_height, variant.parent_width)
 
 
             # ## AutoCrop with KMeans

@@ -7,8 +7,6 @@ import applescript
 
 import cv2
 import numpy as np
-from ipywidgets import IntProgress, Label, VBox
-from IPython.display import display
 from PIL import Image
 
 import img_qc.img_qc as img_qc
