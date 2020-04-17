@@ -17,7 +17,7 @@ if __name__ == '__main__':
 
     print(f'Rotate crop box {args["degrees"]} degrees {args["angle"]}.')
 
-    command = co.command_stub + [f'{co.tell_co20} to set primary_variant to (get primary variant)', 'return primary_variant']
+    command = co.command_stub + [f'{co.tell_co} to set primary_variant to (get primary variant)', 'return primary_variant']
     primary_variants_list = applescript.command_to_python_list(command)
 
     primary_variant = co.Variant(primary_variants_list[0])

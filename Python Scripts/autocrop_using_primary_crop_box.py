@@ -30,7 +30,7 @@ if __name__ == '__main__':
 
     # applescript.display_dialog(selected_variants_list)
 
-    command = co.command_stub + [f'{co.tell_co20} to set primary_variant to (get primary variant)', 'return primary_variant']
+    command = co.command_stub + [f'{co.tell_co} to set primary_variant to (get primary variant)', 'return primary_variant']
     primary_variants_list = applescript.command_to_python_list(command)
 
     primary_variant = co.Variant(primary_variants_list[0])
@@ -51,7 +51,7 @@ if __name__ == '__main__':
 
     # # set height and width first variant in selected variants list
     # variant = co.Variant(selected_variants_list[0])
-    # command = co.command_stub + [f'{co.tell_co20} to tell its document "{variant.document}" to tell its collection id "{variant.collection_id}" to set crop_box to crop of variant id "{variant.id}"', 'return image_dimensions']
+    # command = co.command_stub + [f'{co.tell_co} to tell its document "{variant.document}" to tell its collection id "{variant.collection_id}" to set crop_box to crop of variant id "{variant.id}"', 'return image_dimensions']
     # crop_box = applescript.command_to_python_list(command)
     # applescript.display_dialog(image_dimensions)
     # width, height = float(image_dimensions[0]), float(image_dimensions[1])
