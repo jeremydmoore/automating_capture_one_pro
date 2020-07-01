@@ -125,7 +125,7 @@ if __name__ == '__main__':
             # hard-code pixel_padding as 0 since we're matching other images
             pixel_padding = 0
             # autocrop with Otsu
-            applescript.display_dialog(f'parent_height: {variant.parent_height}\nparent_width: {variant.parent_width}')
+            # applescript.display_dialog(f'parent_height: {variant.parent_height}\nparent_width: {variant.parent_width}')
             capture_one_crop_data = otsu_autocrop(output_path, pixel_padding, variant.parent_height, variant.parent_width)
 
 
