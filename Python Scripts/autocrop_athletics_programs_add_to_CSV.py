@@ -21,7 +21,7 @@ fieldnames = ['image_name', 'image_path', 'variant', 'pixel_padding', 'autocrop_
 # ============ run script ============ #
 if __name__ == '__main__':
 
-    applescript.display_dialog(begin_message)
+    # applescript.display_dialog(begin_message)
 
     # get list of selected variants to process
     selected_variants_list = co.get_selected_variants()
@@ -158,4 +158,4 @@ if __name__ == '__main__':
             applescript.display_dialog('No outputfile to AutoCrop')
             break
 
-    applescript.display_dialog(end_message)
+    # applescript.display_dialog(end_message)

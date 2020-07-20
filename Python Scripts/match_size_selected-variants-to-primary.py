@@ -13,13 +13,13 @@ hot_folder_directory_path = co.scripts_dir_path.joinpath('Hot Folder')
 # ============ run script ============ #
 if __name__ == '__main__':
 
-    applescript.display_dialog(begin_message)
+    # applescript.display_dialog(begin_message)
 
     # get primary variant
     command = co.command_stub + [f'{co.tell_co} to set primary_variant to (get primary variant)', 'return primary_variant']
     primary_variants_list = applescript.command_to_python_list(command)  # TODO: refactor and remove list if only 1 item
     primary_variant = co.Variant(primary_variants_list[0])
-    applescript.display_dialog(f'Primary variant image: {primary_variant.image_name}\nOrientation: {primary_variant.orientation}\nHeight: {primary_variant.height}')
+    # applescript.display_dialog(f'Primary variant image: {primary_variant.image_name}\nOrientation: {primary_variant.orientation}\nHeight: {primary_variant.height}')
 
     # get list of selected variants to process
     selected_variants_list = co.get_selected_variants()
@@ -57,4 +57,4 @@ if __name__ == '__main__':
         else:
             applescript.display_notification(f'Crop set for {variant.image_name}\nVariant {index+1} of {number_of_selected_variants}')
 
-    applescript.display_dialog(end_message)
+    # applescript.display_dialog(end_message)
