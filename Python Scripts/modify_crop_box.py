@@ -33,7 +33,7 @@ if __name__ == '__main__':
     # get list of selected variants to process
     selected_variants_list = co.get_selected_variants()
     number_of_selected_variants = len(selected_variants_list)
-    applescript.display_notification(f'Processing {number_of_selected_variants} VARIANTS')
+    #applescript.display_notification(f'Processing {number_of_selected_variants} VARIANTS')
     for index, selected_variant in enumerate(selected_variants_list):
         # if index > 0 and index % 3 == 0:
         #     stop_script_path = hot_folder_directory_path.joinpath('ERROR.ERROR')
@@ -57,4 +57,4 @@ if __name__ == '__main__':
 
         new_crop_box = [center_x, center_y, width, height]
         applied_crop_box = co.set_crop_box(variant.document, variant.collection_id, variant.id, new_crop_box)
-    applescript.display_notification(f'{number_of_selected_variants} VARIANTS Processed')
+    #applescript.display_notification(f'{number_of_selected_variants} VARIANTS Processed')

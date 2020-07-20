@@ -27,7 +27,7 @@ if __name__ == '__main__':
     # get list of selected variants to process
     selected_variants_list = co.get_selected_variants()
     number_of_selected_variants = len(selected_variants_list)
-    applescript.display_notification(f'Rotating {number_of_selected_variants} VARIANTS {degrees} {angle}')
+    #applescript.display_notification(f'Rotating {number_of_selected_variants} VARIANTS {degrees} {angle}')
 
     for index, selected_variant in enumerate(selected_variants_list):
         degrees_to_rotate = 0
@@ -45,4 +45,4 @@ if __name__ == '__main__':
         post_rotation_list = co.set_adjustment_value(variant.document, variant.collection_id, variant.id, 'rotation', str(degrees_to_rotate))
         degrees_post_rotated = post_rotation_list[0]
 
-    applescript.display_notification(f'Rotated {number_of_selected_variants} VARIANTS {angle}')
+    # applescript.display_notification(f'Rotated {number_of_selected_variants} VARIANTS {angle}')
