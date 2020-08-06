@@ -126,6 +126,11 @@ if __name__ == '__main__':
     selected_variant_df = get_selected_variant_dataframe(selected_variant_list)
     applescript.display_notification('Got DataFrame')
 
+    # get first image name then split off everything after the last underscore
+    # to get the identifier
+    first_image_name = selected_variant_df.image_name[0]
+    identifier = first_image_name.rsplit('_', 1)[0]
+
     # asssumes first 2 images and last 2 images are covers
     cover_width_list = selected_variant_df[selected_variant_df['cover'] == True].width.unique()
     cover_height_list = selected_variant_df[selected_variant_df['cover'] == True].height.unique()
@@ -138,8 +143,8 @@ if __name__ == '__main__':
     dimension_list_list = [cover_width_list, cover_height_list, page_width_list, page_height_list]
     error_list = [x for x in dimension_list_list if len(x) > 1]
 
-    applescript.display_dialog(f'cover_width_list: {cover_width_list}\ncover_height_list: {cover_height_list}')
-    applescript.display_dialog(f'page_width_list: {page_width_list}\npage_height_list: {page_height_list}')
+    applescript.display_dialog(f'identifier: {identifier}\ncover_width_list: {cover_width_list}\ncover_height_list: {cover_height_list}')
+    applescript.display_dialog(f'identifier: {identifier}\npage_width_list: {page_width_list}\npage_height_list: {page_height_list}')
 
     # # process selected variants
     # for index, selected_variant in enumerate(selected_variant_list):
