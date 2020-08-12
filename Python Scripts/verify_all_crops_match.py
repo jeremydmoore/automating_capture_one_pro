@@ -143,8 +143,11 @@ if __name__ == '__main__':
     dimension_list_list = [cover_width_list, cover_height_list, page_width_list, page_height_list]
     error_list = [x for x in dimension_list_list if len(x) > 1]
 
-    applescript.display_dialog(f'identifier: {identifier}\ncover_width_list: {cover_width_list}\ncover_height_list: {cover_height_list}')
-    applescript.display_dialog(f'identifier: {identifier}\npage_width_list: {page_width_list}\npage_height_list: {page_height_list}')
+    if error_list:
+        applescript.display_dialog(f'identifier: {identifier}\ncover_width_list: {cover_width_list}\ncover_height_list: {cover_height_list}')
+        applescript.display_dialog(f'identifier: {identifier}\npage_width_list: {page_width_list}\npage_height_list: {page_height_list}')
+    # applescript.display_dialog(f'identifier: {identifier}\ncover_width_list: {cover_width_list}\ncover_height_list: {cover_height_list}')
+    # applescript.display_dialog(f'identifier: {identifier}\npage_width_list: {page_width_list}\npage_height_list: {page_height_list}')
 
     # # process selected variants
     # for index, selected_variant in enumerate(selected_variant_list):
